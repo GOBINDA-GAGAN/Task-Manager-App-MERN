@@ -1,4 +1,6 @@
 require("dotenv").config();
+
+const dbConnection = require("./config/db");
 const cors = require("cors");
 const path = require("path");
 const express = require("express");
@@ -14,16 +16,17 @@ app.use(
   })
 );
 
+// Connect to the database
+dbConnection();
+
 // Middleware
 app.use(express.json());
 
 //Routers
-
 // app.use("/api/auth",authRoutes);
 // app.use("/api/users",userRoutes);
 // app.use("/api/task",taskRoutes);
 // app.use("/api/reports",reportsRoutes);
-
 
 //check the router
 app.get("/", (req, res) => {
