@@ -7,6 +7,7 @@ const express = require("express");
 
 
 const authRoutes =require("./routers/authRoutes")
+const userRoutes =require("./routers/userRoutes")
 
 const app = express();
 
@@ -27,7 +28,7 @@ app.use(express.json());
 
 //Routers
 app.use("/api/auth",authRoutes);
-// app.use("/api/users",userRoutes);
+app.use("/api/users",userRoutes);
 // app.use("/api/task",taskRoutes);
 // app.use("/api/reports",reportsRoutes);
 
