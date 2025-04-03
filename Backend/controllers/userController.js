@@ -5,10 +5,35 @@ const User = require("../models/User");
 // @desc     Get all tasks
 //@router    [GET]=>/api/users/
 //@access    private [admin]
-const getUser = async () => {
+const getUser = async (req,res) => {
   try {
-    const users = await User.find().select("-password");
-    res.json(users);
+    const users = await User.find({ role: "member" }).select("-password");
+    //Add task counts to each  user
+    const usersWithTaskCounts = await Promise.all(
+      users.map(async (user) => {
+        const pendingTask = await Task.countDocuments({
+          assignedTo: user._id,
+          status: "pending",
+        });
+        const inProgress = await Task.countDocuments({
+          assignedTo: user._id,
+          status: "In progress",
+        });
+        const completedTask = await Task.countDocuments({
+          assignedTo: user._id,
+          status: "Completed",
+        });
+
+        return {
+          ...user._doc, // Include all  existing  user data
+          pendingTask,
+          inProgress,
+          completedTask,
+        };
+      })
+    );
+
+    res.json(usersWithTaskCounts);
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -44,4 +69,4 @@ const deleteUserById = async () => {
   }
 };
 
-module.exports={getUser,deleteUserById,getUserById}
+module.exports = { getUser, deleteUserById, getUserById };

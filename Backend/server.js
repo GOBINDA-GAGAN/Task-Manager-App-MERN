@@ -7,7 +7,7 @@ const express = require("express");
 
 
 const authRoutes =require("./routers/authRoutes")
-const userRoutes =require("./routers/userRoutes")
+const userRoutes=require('./routers/userRoutes')
 
 const app = express();
 
