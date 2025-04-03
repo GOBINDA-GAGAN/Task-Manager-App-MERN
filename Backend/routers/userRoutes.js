@@ -1,3 +1,4 @@
+import { deleteUserById, getUser, getUserById } from "../controllers/userController";
 import { adminOnly, protect } from "../middlewares/authMiddleware";
 
 const express = require("express");
@@ -8,3 +9,4 @@ router.get("/:id", protect, adminOnly, getUserById);
 router.delete("/:id", protect, adminOnly, deleteUserById);
 
 export default routes;
+ 
