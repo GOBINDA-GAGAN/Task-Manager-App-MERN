@@ -5,7 +5,7 @@ const User = require("../models/User");
 // @desc     Get all tasks
 //@router    [GET]=>/api/users/
 //@access    private [admin]
-const getUser = async (req,res) => {
+const getUser = async (req, res) => {
   try {
     const users = await User.find({ role: "member" }).select("-password");
     //Add task counts to each  user
@@ -46,8 +46,13 @@ const getUser = async (req,res) => {
 // @desc     Get user by ID
 //@router [GET]=>/api/users/id
 //@access private [admin]
-const getUserById = async () => {
+const getUserById = async (req, res) => {
   try {
+    const user = await User.findById(req.params.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
   } catch (error) {
     res.status(500).json({
       message: "Server Error",
