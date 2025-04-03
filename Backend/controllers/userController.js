@@ -66,6 +66,7 @@ const getUserById = async (req, res) => {
 //@access private [admin]
 const deleteUserById = async () => {
   try {
+    //pending
   } catch (error) {
     res.status(500).json({
       message: "Server Error",
