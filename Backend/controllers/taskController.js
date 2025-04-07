@@ -97,7 +97,7 @@ const getTask = async (req, res) => {
 const getTaskById = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id).populate(
-      "assignedTo", 
+      "assignedTo",
       "name email profileImage"
     );
     if (!task) {
@@ -193,6 +193,20 @@ const updateTask = async (req, res) => {
 //@access private [admin only]
 const deleteTask = async (req, res) => {
   try {
+    const task = await Task.findById(req.params.id);
+    if (!task) {
+      return (
+        res.status(404),
+        json({
+          message: "task not found",
+        })
+      );
+    }
+    await task.deleteOne();
+
+    res.status(500).json({
+      message: "task delete successfully",
+    });
   } catch (error) {
     res.status(500).json({ message: "server error", error: error.message });
   }
