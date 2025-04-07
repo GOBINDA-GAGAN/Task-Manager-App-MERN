@@ -204,7 +204,7 @@ const deleteTask = async (req, res) => {
     }
     await task.deleteOne();
 
-    res.status(500).json({
+    res.status(200).json({
       message: "task delete successfully",
     });
   } catch (error) {
@@ -217,10 +217,62 @@ const deleteTask = async (req, res) => {
 //@access private
 const updateTaskStatus = async (req, res) => {
   try {
+    // Find the task by ID from the request params
+    const task = await Task.findById(req.params.id);
+
+    // If the task doesn't exist, return a 404 response
+    if (!task) {
+      return res.status(404).json({
+        message: "Task not found",
+      });
+    }
+
+    // Normalize the assignedTo field to always be an array
+    const assignedUsers = Array.isArray(task.assignedTo)
+      ? task.assignedTo
+      : [task.assignedTo];
+
+    // Check if the current user is assigned to this task
+    const isAssigned = assignedUsers.some(
+      (userId) => userId.toString() === req.user._id.toString()
+    );
+
+    // If the user is not assigned and is not an admin, block the request
+    if (!isAssigned && req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Not authorized",
+      });
+    }
+
+    // Update the task status only if it's provided in the request
+    task.status = req.body.status || task.status;
+
+    // If the status is updated to "Completed"
+    if (task.status === "Completed") {
+      // Mark all checklist items as completed
+      task.todoCheckList.forEach((item) => {
+        item.completed = true;
+      });
+
+      // Set the progress to 100%
+      task.progress = 100;
+    }
+
+    // Save the updated task to the database
+    await task.save();
+
+    // Return a success response with the updated task
+    res.status(200).json({
+      message: "Task status updated successfully",
+      task,
+    });
+
   } catch (error) {
-    res.status(500).json({ message: "server error", error: error.message });
+    // Catch and return any server error
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 //@dec  update task  checklist
 //route  PUT-> /api/task/:id/todo
 //@access private
