@@ -329,8 +329,88 @@ const updateTaskChecklist = async (req, res) => {
 //@access private
 const getDashboardData = async (req, res) => {
   try {
+    // Count total number of tasks in the collection
+    const totalTasks = await Task.countDocuments();
+
+    // Count how many tasks have the status "Pending"
+    const pendingTasks = await Task.countDocuments({ status: "Pending" });
+
+    // Count how many tasks are marked as "Completed"
+    const completedTasks = await Task.countDocuments({ status: "Completed" });
+
+    // Count tasks that are not completed and have due dates in the past (i.e., overdue)
+    const overdueTasks = await Task.countDocuments({
+      status: { $ne: "Completed" }, // not equal to "Completed"
+      dueDate: { $lt: new Date() }, // dueDate less than current date
+    });
+
+    // Define all possible statuses you want to track
+    const taskStatuses = ["Pending", "In Progress", "Completed"];
+
+    // Group tasks by status and count how many fall under each
+    const taskDistributionRaw = await Task.aggregate([
+      {
+        $group: {
+          _id: "$status", // group by status field
+          count: { $sum: 1 }, // count each group
+        },
+      },
+    ]);
+
+    // Format and map the result into a clean object with keys like Pending, InProgress, etc.
+    const taskDistribution = taskStatuses.reduce((acc, status) => {
+      const formattedKey = status.replace(/\s+/g, ""); // remove spaces for key naming
+      acc[formattedKey] =
+        taskDistributionRaw.find((item) => item._id === status)?.count || 0;
+      return acc; // add key-value pair to accumulator object
+    }, {});
+
+    // Add a total count under the key "All"
+    taskDistribution["All"] = totalTasks;
+
+    // Define all possible priorities you want to track
+    const taskPriorities = ["Low", "Medium", "High"];
+
+    // Group tasks by priority and count how many fall under each
+    const taskPriorityLevelsRaw = await Task.aggregate([
+      {
+        $group: {
+          _id: "$priority", // group by priority field
+          count: { $sum: 1 }, // count each group
+        },
+      },
+    ]);
+
+    // Format the result into an object with priorities as keys
+    const taskPriorityLevels = taskPriorities.reduce((acc, priority) => {
+      acc[priority] =
+        taskPriorityLevelsRaw.find((item) => item._id === priority)?.count || 0;
+      return acc; // add key-value pair to accumulator
+    }, {});
+
+    // Fetch 10 most recently created tasks
+    const recentTasks = await Task.find()
+      .sort({ createdAt: -1 }) // sort by creation date, newest first
+      .limit(10) // limit to 10 tasks
+      .select("title status priority dueDate createdAt"); // return only these fields
+
+    // Send back the complete dashboard data as JSON
+    res.status(200).json({
+      statistics: {
+        totalTasks,
+        pendingTasks,
+        completedTasks,
+        overdueTasks,
+      },
+      charts: {
+        taskDistribution, // task count by status
+        taskPriorityLevels, // task count by priority
+      },
+      recentTasks, // list of 10 recent tasks
+    });
   } catch (error) {
-    res.status(500).json({ message: "server error", error: error.message });
+    // Catch and return error if anything fails
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 //@dec  Get user-dashboard-data (user specific)
