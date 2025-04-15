@@ -1,16 +1,17 @@
 import React from "react";
-import UI_Image from "../../assets/images/team_working.png";
+import UI_Image from "../../assets/images/LoginPageImage.jpg";
 
 const AuthLayout = ({ children }) => {
   return (
-    <div className="flex h-screen md:h-[60vh]">
-      <div>
-        <h1>Task Manager</h1>
-        <p>login</p>
-      </div>
+    <div className="bg-[#FFFFFF ] flex justify-center items-center">
+      <div className="grid grid-cols-2 rounded-3xl min-h-screen justify-between items-center">
+        <div className="w-full">{children}</div>
 
-      <div>
-        <img src={UI_Image} alt="Task Manager" />
+        <img
+          src={UI_Image}
+          alt="Task Manager"
+          className="h-screen object-center object-cover hidden lg:block"
+        />
       </div>
     </div>
   );
