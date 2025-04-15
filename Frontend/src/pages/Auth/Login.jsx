@@ -44,9 +44,22 @@ const Login = () => {
             onSubmit={handelSubmit}
             className="space-y-2 w-full flex flex-col justify-center mt-4 "
           >
-            
+            <Input
+              className="w-full"
+              type="text"
+              placeholder="xyz@gmail.com"
+              value={email}
+              onChange={({ target }) => setEmail(target.value)}
+              lable="Enter Address"
+            />
+            <Input
+              type="password"
+              placeholder="Min 8 character"
+              value={password}
+              onChange={({ target }) => setPassword(target.value)}
+              lable="Password"
+            />
 
-            
             {error && (
               <p className="text-red-500 text-start text-[13px]">{error}</p>
             )}

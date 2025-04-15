@@ -6,7 +6,6 @@ const Input = ({ type, placeholder, value, onChange, lable }) => {
   const [showPassword, setShowPassword] = useState(true);
   const togglePassword = () => {
     setShowPassword(!showPassword);
-    console.log(!password);
   };
   return (
     <div className="flex flex-col gap-1">
