@@ -32,7 +32,39 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      
+      <div className="flex justify-center items-center p-4 h-screen">
+        <div className="flex flex-col justify-center items-center">
+          <h1 className="text-[#000000] text-5xl font-semibold">
+            Welcome Back
+          </h1>
+          <p className="text-center text-gray-500 italic mt-2">
+            Let’s get to work!
+          </p>
+          <form
+            onSubmit={handelSubmit}
+            className="space-y-2 w-full flex flex-col justify-center mt-4 "
+          >
+            
+
+            
+            {error && (
+              <p className="text-red-500 text-start text-[13px]">{error}</p>
+            )}
+            <button type="submit" className="btn-primary mt-2 ">
+              LOGIN
+            </button>
+            <p className="text-[15px] mt-3 text-slate-600">
+              Don't have account ?{" "}
+              <Link
+                to="/signup"
+                className="text-blue-500 underline font-medium"
+              >
+                Sign up
+              </Link>
+            </p>
+          </form>
+        </div>
+      </div>
     </AuthLayout>
   );
 };
