@@ -4,7 +4,7 @@ import UI_Image from "../../assets/images/LoginPageImage.jpg";
 const AuthLayout = ({ children }) => {
   return (
     <div className="bg-[#FFFFFF ] flex justify-center items-center">
-      <div className="grid grid-cols-2 rounded-3xl min-h-screen justify-between items-center">
+      <div className="grid lg:grid-cols-2 rounded-3xl min-h-screen justify-between items-center">
         <div className="w-full">{children}</div>
 
         <img

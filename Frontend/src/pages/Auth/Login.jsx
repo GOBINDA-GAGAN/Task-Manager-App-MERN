@@ -34,7 +34,7 @@ const Login = () => {
     <AuthLayout>
       <div className="flex justify-center items-center p-4 h-screen">
         <div className="flex flex-col justify-center items-center">
-          <h1 className="text-[#000000] text-5xl font-semibold">
+          <h1 className="text-[#000000] text-4xl md:text-4xl lg:text-5xl font-semibold">
             Welcome Back
           </h1>
           <p className="text-center text-gray-500 italic mt-2">
