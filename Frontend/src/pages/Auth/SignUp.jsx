@@ -52,10 +52,10 @@ const SignUp = () => {
             onSubmit={handelSignUp}
             className="space-y-2 w-full md:w-[600px]  flex flex-col items-center mt-4 "
           >
-            /* <ProfilePhotoSelector
+             <ProfilePhotoSelector
               image={profilePic}
               setImage={setProfilePic}
-            ></ProfilePhotoSelector> */
+            ></ProfilePhotoSelector> 
             
             <div className=" grid  grid-cols-1 md:grid-cols-2 gap-4 w-full  mt-4">
               <Input
