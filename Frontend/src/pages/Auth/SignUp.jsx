@@ -52,11 +52,11 @@ const SignUp = () => {
             onSubmit={handelSignUp}
             className="space-y-2 w-full md:w-[600px]  flex flex-col items-center mt-4 "
           >
-             <ProfilePhotoSelector
+            <ProfilePhotoSelector
               image={profilePic}
               setImage={setProfilePic}
-            ></ProfilePhotoSelector> 
-            
+            ></ProfilePhotoSelector>
+
             <div className=" grid  grid-cols-1 md:grid-cols-2 gap-4 w-full  mt-4">
               <Input
                 className="w-full"
@@ -84,10 +84,10 @@ const SignUp = () => {
 
               <Input
                 type="text"
-                placeholder="Enter your AccessToken"
+                placeholder="6 Digit Code"
                 value={adminAccessToken}
                 onChange={({ target }) => setAdminAccessToken(target.value)}
-                lable="Access Token"
+                lable="Admin Invite Token"
               />
             </div>
 
