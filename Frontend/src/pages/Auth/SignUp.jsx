@@ -32,10 +32,11 @@ const SignUp = () => {
     }
     setError("");
     console.log({
-      fullName: fullName,
-      email: email,
-      password: password,
       profilePic: profilePic,
+      FullName: fullName,
+      Email: email,
+      Password: password,
+      Admin_Token: adminAccessToken,
     });
   };
   return (
