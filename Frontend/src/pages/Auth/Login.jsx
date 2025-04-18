@@ -3,6 +3,9 @@ import AuthLayout from "../../components/Layouts/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../utils/helper";
+import axiosInstance from "../../utils/axiosInstance";
+import { MdApi } from "react-icons/md";
+import { API_PATH } from "../../utils/apiPaths";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   //submit  login from data
-  const handelSubmit = (e) => {
+  const handelSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateEmail(email)) {
@@ -28,12 +31,28 @@ const Login = () => {
     setError("");
 
     //login api call
-try {
-  
-} catch (error) {
-  
-}
+    try {
+      const response = await axiosInstance.post(API_PATH.AUTH.LOGIN, {
+        email,
+        password,
+      });
+      const { token, role } = response.data;
 
+      if (token) {
+        localStorage.setItem("token", token);
+        if (role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/user/dashboard");
+        }
+      }
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("some thing went wrong ,Please try");
+      }
+    }
 
     console.log({
       email: email,
