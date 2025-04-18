@@ -24,6 +24,17 @@ const Login = () => {
       setError("Please enter your password");
       return;
     }
+
+    setError("");
+
+    //login api call
+try {
+  
+} catch (error) {
+  
+}
+
+
     console.log({
       email: email,
       password: password,
