@@ -30,7 +30,7 @@ const Login = () => {
 
     setError("");
 
-    //login api call
+    //login api  call 👍
     try {
       const response = await axiosInstance.post(API_PATH.AUTH.LOGIN, {
         email,
