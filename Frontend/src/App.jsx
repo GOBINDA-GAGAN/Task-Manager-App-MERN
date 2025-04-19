@@ -12,35 +12,38 @@ import MyTask from "./pages/User/MyTask";
 import ViewTaskDetails from "./pages/User/ViewTaskDetails";
 
 import PrivateRoute from "./routes/PrivateRoute";
+import userProvider from "./context/userContext";
 
 const App = () => {
   return (
-    <div>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signUp" element={<SignUp />} />
+    <userProvider>
+      <div>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signUp" element={<SignUp />} />
 
-          {/*Admin routes*/}
-          <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
-            <Route path="/admin/dashboard" element={<Dashboard />} />
-            <Route path="/admin/tasks" element={<ManageTasks />} />
-            <Route path="/admin/create-task" element={<CreateTask />} />
-            <Route path="/admin/users" element={<ManageUsers />} />
-          </Route>
+            {/*Admin routes*/}
+            <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
+              <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin/tasks" element={<ManageTasks />} />
+              <Route path="/admin/create-task" element={<CreateTask />} />
+              <Route path="/admin/users" element={<ManageUsers />} />
+            </Route>
 
-          {/*User routes*/}
-          <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
-            <Route path="/user/dashboard" element={<UserDashboard />} />
-            <Route path="/user/tasks" element={<MyTask />} />
-            <Route
-              path="/user/task-details/:id"
-              element={<ViewTaskDetails />}
-            />
-          </Route>
-        </Routes>
-      </Router>
-    </div>
+            {/*User routes*/}
+            <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
+              <Route path="/user/dashboard" element={<UserDashboard />} />
+              <Route path="/user/tasks" element={<MyTask />} />
+              <Route
+                path="/user/task-details/:id"
+                element={<ViewTaskDetails />}
+              />
+            </Route>
+          </Routes>
+        </Router>
+      </div>
+    </userProvider>
   );
 };
 
