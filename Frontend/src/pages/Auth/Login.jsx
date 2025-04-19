@@ -14,6 +14,8 @@ const Login = () => {
   const [error, setError] = useState(null);
 
   const { updateUser } = useContext(userContext);
+  
+  console.log("context", useContext(userContext));
   const navigate = useNavigate();
 
   //submit  login from data
@@ -43,6 +45,7 @@ const Login = () => {
       if (token) {
         localStorage.setItem("token", token);
         updateUser(response.data);
+        console.log("User profile after login:", response.data);
         if (role === "admin") {
           navigate("/admin/dashboard");
         } else {
@@ -50,6 +53,8 @@ const Login = () => {
         }
       }
     } catch (error) {
+      console.log(error);
+
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
       } else {
