@@ -29,13 +29,14 @@ const useProvider = ({ Children }) => {
       }
     };
     fetchUser();
-  },[]);
+  }, []);
 
+  const updateUser = (userData) => {
+    setUser(userData);
+    localStorage.setItem("token", userData.token);
+  };
 
-
-
-
-
+  setLoading(false);
 };
 
 export default useProvider;
