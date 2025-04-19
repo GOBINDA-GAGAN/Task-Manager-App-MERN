@@ -4,7 +4,7 @@ import { API_PATH } from "../utils/apiPaths";
 
 export const userContext = createContext();
 
-const useProvider = ({ Children }) => {
+const useProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -37,6 +37,15 @@ const useProvider = ({ Children }) => {
     setLoading(false);
   };
 
+  const clearUser = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+  };
+  return (
+    <userContext.Provider value={(user, loading, updateUser, clearUser)}>
+      {children}
+    </userContext.Provider>
+  );
 };
 
 export default useProvider;
