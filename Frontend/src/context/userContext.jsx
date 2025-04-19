@@ -34,9 +34,9 @@ const useProvider = ({ Children }) => {
   const updateUser = (userData) => {
     setUser(userData);
     localStorage.setItem("token", userData.token);
+    setLoading(false);
   };
 
-  setLoading(false);
 };
 
 export default useProvider;
