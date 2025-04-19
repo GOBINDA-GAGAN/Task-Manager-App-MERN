@@ -4,7 +4,7 @@ import { API_PATH } from "../utils/apiPaths";
 
 export const userContext = createContext();
 
-const useProvider = ({ children }) => {
+const userProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -48,4 +48,4 @@ const useProvider = ({ children }) => {
   );
 };
 
-export default useProvider;
+export default userProvider;
