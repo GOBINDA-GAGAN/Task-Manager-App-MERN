@@ -40,8 +40,9 @@ const Login = () => {
         email,
         password,
       });
-      const { token, role } = response.data;
-
+      const { token, role } = response.data;   
+      console.log(role);
+        
       if (token) {
         localStorage.setItem("token", token);
         updateUser(response.data);
@@ -61,13 +62,7 @@ const Login = () => {
         setError("some thing went wrong ,Please try");
       }
     }
-
-    console.log({
-      email: email,
-      password: password,
-    });
   };
-
   return (
     <AuthLayout>
       <div className="flex justify-center items-center p-4 h-screen">

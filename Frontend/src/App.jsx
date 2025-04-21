@@ -44,7 +44,6 @@ const App = () => {
 
           {/* Default route */}
           <Route path="/" element={<Root />} />
-          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
     </UserProvider>
