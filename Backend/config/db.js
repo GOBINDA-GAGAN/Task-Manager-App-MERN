@@ -10,3 +10,6 @@
    }
  }
  module.exports = connectDB;
+
+ // mongodb error-> Error connecting to MongoDB 🔴: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
+// fixed-> cmd->net start MongoDB
