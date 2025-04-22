@@ -63,14 +63,6 @@ const SignUp = () => {
         setError("some thing went wrong ,Please try");
       }
     }
-
-    console.log({
-      profilePic: profilePic,
-      FullName: fullName,
-      Email: email,
-      Password: password,
-      Admin_Token: adminAccessToken,
-    });
   };
   return (
     <AuthLayout>
