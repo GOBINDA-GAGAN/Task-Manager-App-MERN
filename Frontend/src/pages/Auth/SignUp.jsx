@@ -4,6 +4,8 @@ import Input from "../../components/Inputs/Input";
 import { Link } from "react-router-dom";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
 import { validateEmail } from "../../utils/helper";
+import { API_PATH } from "../../utils/apiPaths";
+import axiosInstance from "../../utils/axiosInstance";
 
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -14,7 +16,7 @@ const SignUp = () => {
   const [error, setError] = useState(null);
 
   //submit signup from data
-  const handelSignUp = (e) => {
+  const handelSignUp = async (e) => {
     e.preventDefault();
 
     if (!fullName) {
@@ -31,6 +33,24 @@ const SignUp = () => {
       return;
     }
     setError("");
+    try {
+      const response = await axiosInstance.post(API_PATH.AUTH.REGISTER, {
+        name: fullName,
+        email,
+        password,
+        adminAccessToken,
+      });
+      
+    } catch (error) {
+      console.log(error);
+
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("some thing went wrong ,Please try");
+      }
+    }
+
     console.log({
       profilePic: profilePic,
       FullName: fullName,
