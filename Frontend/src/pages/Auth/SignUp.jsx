@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AuthLayout from "../../components/Layouts/AuthLayout";
 import Input from "../../components/Inputs/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
 import { validateEmail } from "../../utils/helper";
 import { API_PATH } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
+import { userContext } from "../../context/userContext";
 
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -15,6 +16,8 @@ const SignUp = () => {
   const [adminAccessToken, setAdminAccessToken] = useState("");
   const [error, setError] = useState(null);
 
+  const { updateUser } = useContext(userContext);
+  const navigate = useNavigate();
   //submit signup from data
   const handelSignUp = async (e) => {
     e.preventDefault();
@@ -35,12 +38,22 @@ const SignUp = () => {
     setError("");
     try {
       const response = await axiosInstance.post(API_PATH.AUTH.REGISTER, {
-        name: fullName,
+        userName: fullName,
         email,
         password,
         adminAccessToken,
       });
-      
+
+      const { token, role } = response.data;
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(response.data);
+        if (role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/user/dashboard");
+        }
+      }
     } catch (error) {
       console.log(error);
 
